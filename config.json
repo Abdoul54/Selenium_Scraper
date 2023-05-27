@@ -1,0 +1,5 @@
+{
+  "chrome_driver_path": "C:/Program Files (x86)/chromedriver.exe",
+  "mongodb_connection_string": "mongodb://localhost:27017/mydb?directConnection=true",
+  "mongodb_database_name": "Scrape"
+}
