@@ -37,7 +37,7 @@ Le script récupérera les données des offres d'emploi, des propriétés immobi
 
 ## Resultat
 
-```JSON
+```
 // Voiture
   {
     _id: ObjectId("64723643c06bd5bf3f3836f3"),
