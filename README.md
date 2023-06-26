@@ -24,7 +24,7 @@ pip install selenium pymongo
 ```
 
 
-Assurez-vous également d'avoir téléchargé le pilote Chrome approprié `https://chromedriver.chromium.org/downloads` et de spécifier le chemin du pilote dans le fichier `config.json`.
+Assurez-vous également d'avoir téléchargé le pilote Chrome approprié https://chromedriver.chromium.org/downloads et de spécifier le chemin du pilote dans le fichier `config.json`.
 
 ## Utilisation
 
