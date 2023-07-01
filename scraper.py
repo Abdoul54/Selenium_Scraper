@@ -54,12 +54,15 @@ def scrape(driver, *cities):
                             f"return document.querySelector('#__next > div > main > div > div:nth-child(6) > div.sc-1lz4h6h-0.gzFzOo > div > div.sc-1nre5ec-1.fzpnun.listing > div:nth-child({i}) > a')")
                         localisation_element = driver.execute_script(
                             f"return document.querySelector('#__next > div > main > div > div:nth-child(6) > div.sc-1lz4h6h-0.gzFzOo > div > div.sc-1nre5ec-1.fzpnun.listing > div:nth-child({i}) > a > div.sc-ibbrkc-0.sc-jejop8-9.feyxCM.hjXlHz > div:nth-child(2) > div > div:nth-child(2) > span');")
+                        image_element = driver.execute_script(
+                            f"return document.querySelector('#__next > div > main > div > div:nth-child(6) > div.sc-1lz4h6h-0.gzFzOo > div > div.sc-1nre5ec-1.fzpnun.listing > div:nth-child({i}) > a > div.sc-jejop8-4.gLljJq > div > div > img')")
                         type_element = driver.execute_script(
                             f"return document.querySelector('#__next > div > main > div > div:nth-child(6) > div.sc-1lz4h6h-0.gzFzOo > div > div.sc-1nre5ec-1.fzpnun.listing > div:nth-child({i}) > a > div.sc-ibbrkc-0.sc-jejop8-9.feyxCM.hjXlHz > div:nth-child(2) > p')")
                         if title_element is not None:
                             title = title_element.text
                             link = link_element.get_attribute('href')
                             localisation = localisation_element.text
+                            image = image_element.get_attribute('src')
                             typeV = type_element.text
                             price_element = driver.execute_script(
                                 f"return document.querySelector('#__next > div > main > div > div:nth-child(6) > div.sc-1lz4h6h-0.gzFzOo > div > div.sc-1nre5ec-1.fzpnun.listing > div:nth-child({i}) > a > div.sc-ibbrkc-0.sc-jejop8-9.feyxCM.hjXlHz > div:nth-child(1) > div > span > div > span:nth-child(1)');")
@@ -70,6 +73,7 @@ def scrape(driver, *cities):
                                     "Title": title,
                                     "Price": price_element.text.replace(',', '') if price_element is not None else 0,
                                     "link": link,
+                                    "image": image,
                                     "localisation": localisation,
                                     "type": typeV,
                                     "platform": "www.avito.ma"
@@ -93,9 +97,10 @@ def save_data_to_database(data):
         # Se connecter à la base de données MongoDB
         client = MongoClient(config['mongodb_connection_string'])
         db = client[config['mongodb_database_name']]
-        
+
         # Supprimer les articles existants
-        data = [item for item in data if len(list(db.Posts.find({"link": {"$eq": item['link']}}))) == 0]
+        data = [item for item in data if len(
+            list(db.Posts.find({"link": {"$eq": item['link']}}))) == 0]
         # Insérer les données dans la collection
         db.Posts.insert_many(data)
         print("Data inserted successfully")
